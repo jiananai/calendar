@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nineton.calendar.mapper.RechargeMapper" >
+  <resultMap id="BaseResultMap" type="com.nineton.calendar.pojo.Recharge" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="save" property="save" jdbcType="VARCHAR" />
+    <result column="coin" property="coin" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Where_clause">
+    <where>
+      <if test="recharge.id != null" >
+        and id = #{recharge.id,jdbcType=INTEGER}
+      </if>
+
+      <if test="recharge.productId != null" >
+        and product_id = #{recharge.productId,jdbcType=VARCHAR}
+      </if>
+      <if test="recharge.save != null" >
+        and save = #{recharge.save,jdbcType=VARCHAR}
+      </if>
+      <if test="recharge.coin != null" >
+        and coin = #{recharge.coin,jdbcType=INTEGER}
+      </if>
+      <if test="recharge.price != null" >
+        and price = #{recharge.price,jdbcType=DOUBLE}
+      </if>
+      <if test="recharge.language != null" >
+        and language = #{recharge.language,jdbcType=VARCHAR}
+      </if>
+      <if test="recharge.packageName != null" >
+        and package_name = #{recharge.packageName,jdbcType=VARCHAR}
+      </if>
+      <if test="recharge.platform != null" >
+        and platform = #{recharge.platform,jdbcType=VARCHAR}
+      </if>
+      <if test="date != null" >
+        and createtime > #{date,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, product_id, save, coin, price, language, package_name, platform
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.RechargeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recharge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recharge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nineton.calendar.pojo.RechargeExample" >
+    delete from recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nineton.calendar.pojo.Recharge" >
+    insert into recharge (id, product_id, save, 
+      coin, price, language, 
+      package_name, platform)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{save,jdbcType=VARCHAR}, 
+      #{coin,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{language,jdbcType=VARCHAR}, 
+      #{packageName,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nineton.calendar.pojo.Recharge" >
+    insert into recharge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="save != null" >
+        save,
+      </if>
+      <if test="coin != null" >
+        coin,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="save != null" >
+        #{save,jdbcType=VARCHAR},
+      </if>
+      <if test="coin != null" >
+        #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nineton.calendar.pojo.RechargeExample" resultType="java.lang.Integer" >
+    select count(*) from recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update recharge
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.save != null" >
+        save = #{record.save,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coin != null" >
+        coin = #{record.coin,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.language != null" >
+        language = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageName != null" >
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platform != null" >
+        platform = #{record.platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update recharge
+    set id = #{record.id,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      save = #{record.save,jdbcType=VARCHAR},
+      coin = #{record.coin,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DOUBLE},
+      language = #{record.language,jdbcType=VARCHAR},
+      package_name = #{record.packageName,jdbcType=VARCHAR},
+      platform = #{record.platform,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nineton.calendar.pojo.Recharge" >
+    update recharge
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="save != null" >
+        save = #{save,jdbcType=VARCHAR},
+      </if>
+      <if test="coin != null" >
+        coin = #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nineton.calendar.pojo.Recharge" >
+    update recharge
+    set product_id = #{productId,jdbcType=VARCHAR},
+      save = #{save,jdbcType=VARCHAR},
+      coin = #{coin,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      language = #{language,jdbcType=VARCHAR},
+      package_name = #{packageName,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAllRecharge" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.PageUtils">
+    SELECT * from recharge
+    <include refid="Where_clause" />
+    ORDER by coin limit #{start},#{limit}
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="com.nineton.calendar.pojo.PageUtils">
+    SELECT COUNT(*) from recharge <include refid="Where_clause" />
+  </select>
+</mapper>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nineton.calendar.mapper.WallpaperOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.nineton.calendar.pojo.WallpaperOrder" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="identification_code" property="identificationCode" jdbcType="VARCHAR" />
+    <result column="theme_id" property="themeId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, identification_code, theme_id, create_time, package_name, platform
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.WallpaperOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from wallpaper_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wallpaper_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wallpaper_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nineton.calendar.pojo.WallpaperOrderExample" >
+    delete from wallpaper_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nineton.calendar.pojo.WallpaperOrder" >
+    insert into wallpaper_order (order_id, identification_code, theme_id, 
+      create_time, package_name, platform
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{identificationCode,jdbcType=VARCHAR}, #{themeId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{packageName,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nineton.calendar.pojo.WallpaperOrder" >
+    insert into wallpaper_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="identificationCode != null" >
+        identification_code,
+      </if>
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="identificationCode != null" >
+        #{identificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nineton.calendar.pojo.WallpaperOrderExample" resultType="java.lang.Integer" >
+    select count(*) from wallpaper_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update wallpaper_order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.identificationCode != null" >
+        identification_code = #{record.identificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.themeId != null" >
+        theme_id = #{record.themeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.packageName != null" >
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platform != null" >
+        platform = #{record.platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update wallpaper_order
+    set order_id = #{record.orderId,jdbcType=INTEGER},
+      identification_code = #{record.identificationCode,jdbcType=VARCHAR},
+      theme_id = #{record.themeId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      package_name = #{record.packageName,jdbcType=VARCHAR},
+      platform = #{record.platform,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nineton.calendar.pojo.WallpaperOrder" >
+    update wallpaper_order
+    <set >
+      <if test="identificationCode != null" >
+        identification_code = #{identificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="themeId != null" >
+        theme_id = #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nineton.calendar.pojo.WallpaperOrder" >
+    update wallpaper_order
+    set identification_code = #{identificationCode,jdbcType=VARCHAR},
+      theme_id = #{themeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      package_name = #{packageName,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

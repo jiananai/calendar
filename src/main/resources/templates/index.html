@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <!--<script th:src="@{/layui/jquery.min.js}"></script>-->
+    <!--<script th:src="@{/layui/common.js}"></script>-->
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">九吨WallPaper 后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/index">用户列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">充值管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/recharge-list">充值列表</a></dd>
+                        <dd><a href="/recharge-add">添加充值方案</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">充值订单</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/rechargeOrder-list">订单列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">配置管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/config-list">配置列表</a></dd>
+                        <dd><a href="/config-add">添加配置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">文件管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/p12-list">文件列表</a></dd>
+                        <dd><a href="/p12-add">上传文件</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div class="demoTable layui-form" style="padding-top: 10px;padding-left: 10px;" id="f1">
+            <div class="layui-inline">
+                识别码：
+                <div class="layui-input-inline" style="width: 150px;">
+                    <input class="layui-input" name="identificationCode" id="identificationCode" autocomplete="off">
+                </div>
+            </div>
+            <!--<div class="layui-inline">
+                开始时间：
+                <div class="layui-input-inline" style="width: 150px;">
+                    <input class="layui-input" name="startTime" id="startTime" autocomplete="off">
+                </div>
+            </div>-->
+            <div class="layui-inline">
+                包名：
+                <div class="layui-input-inline">
+                    <select name="packageName" id="packageName" lay-verify="" lay-search>
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+
+        <div style="padding: 10px;">
+            <table id="demo" lay-filter="test"></table>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+
+        <div id="nowTime"></div>
+    </div>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+
+    });
+</script>
+<script>
+    setInterval("document.getElementById('nowTime').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());", 1000);
+    layui.use(['table', 'form', 'laydate'], function () {
+        /*var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startTime' //指定元素
+            , type: 'datetime'
+        });*/
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , id: 'idTest'
+            , url: '/user/userPage' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {type: 'numbers'}
+                , {field: 'identificationCode', title: '识别码', sort: true}
+                , {field: 'consumeCoin', title: '消费金币'}
+                , {field: 'haveCoin', title: '现有金币', sort: true}
+                , {field: 'consumeMoney', title: '消费金额', sort: true}
+                , {field: 'packageName', title: '包名'}
+                , {field: 'platform', title: '平台'}
+                , {field: 'createTime', title: '创建时间', sort: true, templet: '#Tpl2', width: 180}
+                , {fixed: 'right', title: '操作', width: 90, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('idTest', {
+                    where: {
+                        identificationCode: $("#identificationCode").val(),
+                        packageName: $("#packageName").val(),
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        $.post("/p12/list", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#packageName").append("<option>" + data[i].packageName + "</option>");
+            }
+            var form = layui.form;
+            form.render();
+        });
+
+        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if (layEvent === 'edit') { //编辑
+                layer.open({
+                    type: 2,
+                    title: 'layer mobile页',
+                    shadeClose: true,
+                    shade: 0.8,
+                    fixed: false, //不固定
+                    maxmin: true,
+                    area: ['60%', '70%'],
+                    content: '/user-edit', //iframe的url
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('.layui-form', index);
+                        //var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
+                        //console.log(body.html()) //得到iframe页的body内容
+                        //iframeWin.sx();
+                        body.find('input[name=userid]').val(data.userid);
+                        body.find('input[name=username]').val(data.username);
+                        body.find('select[name=isFristCharge]').val(data.isFristCharge);
+                        body.find('select[name=packageName]').val(data.packageName);
+
+
+                    }
+                });
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    //向服务端发送删除指令
+                    $.post("/user/delete/" + data.identificationCode, function (data) {
+                        if (data.status == 200) {
+                            layer.confirm("删除成功");
+                            table.reload('idTest', {});
+                        }
+                    });
+                });
+            }
+        });
+        table.on('edit(test)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //var val = obj.value; //得到修改后的值
+            //var ff = obj.field; //当前编辑的字段名
+            //var userid = obj.data.userid;
+            var param = JSON.stringify(obj.data);
+            $.ajax({
+                url: "/user/edit",
+                type: "post",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 200) {
+                        table.reload('idTest', {});
+                    }
+                }
+            })
+
+        });
+    });
+
+</script>
+<script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>-->
+    <!--<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>-->
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="Tpl2">
+    {{#
+    function add0(m){return m<10?'0'+m:m }
+    }}
+    {{#
+    function format(shijianchuo)
+    {
+    var time = new Date(shijianchuo);
+    var y = time.getFullYear();
+    var m = time.getMonth()+1;
+    var d = time.getDate();
+    var h = time.getHours();
+    var mm = time.getMinutes();
+    var s = time.getSeconds();
+    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    }
+    }}
+
+    {{format(d.createTime)}}
+</script>
+</body>
+</html>
