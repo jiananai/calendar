@@ -38,6 +38,7 @@ public class RequestDecryptResponseEncryptBodyProcessor {
     protected String doDecryptRequestBody(String input, HttpHeaders httpHeaders, Charset charset) {
         //System.out.println(input+"|||");
         String decrypt = AesUtils.decrypt(input, "youllikefollower", "likethisverymuch");
+        log.info(decrypt);
         return decrypt;
     }
 

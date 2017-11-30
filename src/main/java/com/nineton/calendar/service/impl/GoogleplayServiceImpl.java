@@ -15,7 +15,7 @@ public class GoogleplayServiceImpl implements GoogleplayService {
     @Autowired
     private RechargeOrderService rechargeOrderService;
     @Autowired
-    private UserService userService;;
+    private UserService userService;
     @Autowired
     private RechargeService rechargeService;
     @Autowired

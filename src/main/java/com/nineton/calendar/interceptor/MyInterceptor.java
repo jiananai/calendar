@@ -13,6 +13,12 @@ public class MyInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         //String code = httpServletRequest.getParameter("username");
         //System.out.println(code);
+        Object user = httpServletRequest.getSession().getAttribute("user");
+
+        //System.out.println(1);
+        if(user==null){
+            return false;
+        }
         return true;
     }
 

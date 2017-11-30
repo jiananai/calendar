@@ -22,6 +22,9 @@
       <if test="rechargeOrder.rechargeId != null" >
         and recharge_id = #{rechargeOrder.rechargeId,jdbcType=INTEGER}
       </if>
+      <if test="rechargeOrder.status == null" >
+        and status != 2
+      </if>
       <if test="rechargeOrder.status != null" >
         and status = #{rechargeOrder.status,jdbcType=INTEGER}
       </if>
