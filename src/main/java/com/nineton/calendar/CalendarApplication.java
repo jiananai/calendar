@@ -22,12 +22,6 @@ public class CalendarApplication {
 		SpringApplication.run(CalendarApplication.class, args);
 	}
 
-	@Bean
-	MultipartConfigElement multipartConfigElement() {
-		MultipartConfigFactory factory = new MultipartConfigFactory();
-		factory.setLocation("/");
-		return factory.createMultipartConfig();
-	}
 }
 
 

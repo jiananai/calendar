@@ -43,8 +43,12 @@ public class P12Controller {
 
         String p12File_name = uploadFile.getOriginalFilename();
         String newFileName = UUID.randomUUID().toString() + p12File_name.substring(p12File_name.lastIndexOf("."));
-        System.out.println(p12File_name);
-        System.out.println(newFileName);
+        //System.out.println(p12File_name);
+        //System.out.println(newFileName);
+        P12 p = p12Service.findByPackageName(p12.getPackageName());
+        if(p!=null){
+            p12Service.deleteP12(p.getId());
+        }
         p12.setCreateTime(new Date());
         p12.setFileName(newFileName);
         p12Service.insert(p12);
