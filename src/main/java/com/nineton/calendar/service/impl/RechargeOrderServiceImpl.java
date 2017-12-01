@@ -6,6 +6,7 @@ import com.nineton.calendar.service.*;
 import com.nineton.calendar.utils.IDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class RechargeOrderServiceImpl implements RechargeOrderService{
 
     @Autowired
     private P12Service p12Service;
+    @Transactional
     @Override
     public RechargeOrder insertOrder(RechargeOrder order) {
         synchronized (RechargeOrderServiceImpl.class) {
@@ -49,13 +51,13 @@ public class RechargeOrderServiceImpl implements RechargeOrderService{
         rechargeOrderMapper.insert(order);
         return order;
     }
-
+    @Transactional
     @Override
     public RechargeOrder selectByPrimaryKey(String orderId) {
         RechargeOrder rechargeOrder = rechargeOrderMapper.selectByPrimaryKey(orderId);
         return rechargeOrder;
     }
-
+    @Transactional
     @Override
     public List<RechargeOrder> selectByUR(GoogleplayExt googleplayExt) {
         RechargeOrderExample example=new RechargeOrderExample();
@@ -66,12 +68,12 @@ public class RechargeOrderServiceImpl implements RechargeOrderService{
         List<RechargeOrder> list = rechargeOrderMapper.selectByExample(example);
         return list;
     }
-
+    @Transactional
     @Override
     public void updateByPrimaryKey(RechargeOrder rechargeOrder) {
         rechargeOrderMapper.updateByPrimaryKey(rechargeOrder);
     }
-
+    @Transactional
     @Override
     public PageResult findAllOrder(Integer page, Integer limit, RechargeOrder rechargeOrder) {
         Integer start = (page - 1) * limit;

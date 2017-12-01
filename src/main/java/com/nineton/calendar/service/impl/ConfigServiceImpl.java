@@ -5,6 +5,7 @@ import com.nineton.calendar.pojo.*;
 import com.nineton.calendar.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,13 +13,16 @@ import java.util.List;
 public class ConfigServiceImpl implements ConfigService {
     @Autowired
     private ConfigMapper configMapper;
+
+    @Transactional
     @Override
     public List<Config> getConfigList() {
-        ConfigExample example=new ConfigExample();
+        ConfigExample example = new ConfigExample();
         List<Config> configs = configMapper.selectByExampleWithBLOBs(example);
         return configs;
     }
 
+    @Transactional
     @Override
     public PageResult findAllConfig(Integer page, Integer limit) {
         Integer start = (page - 1) * limit;
@@ -36,16 +40,19 @@ public class ConfigServiceImpl implements ConfigService {
         return result;
     }
 
+    @Transactional
     @Override
     public void deleteConfig(Integer id) {
         configMapper.deleteByPrimaryKey(id);
     }
 
+    @Transactional
     @Override
     public void editConfig(Config config) {
         configMapper.updateByPrimaryKeyWithBLOBs(config);
     }
 
+    @Transactional
     @Override
     public void insertConfig(Config config) {
         configMapper.insert(config);

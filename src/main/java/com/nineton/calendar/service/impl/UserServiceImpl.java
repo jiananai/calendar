@@ -7,6 +7,7 @@ import com.nineton.calendar.service.UserService;
 import com.nineton.calendar.service.WallpaperOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -19,14 +20,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private WallpaperOrderService wallpaperOrderService;
 
+    @Transactional
     @Override
     public UserExt insertOrFindUser(User user) {
-        UserExt u=new UserExt();
-        UserExample example=new UserExample();
+        UserExt u = new UserExt();
+        UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andIdentificationCodeEqualTo(user.getIdentificationCode());
         List<User> users = userMapper.selectByExample(example);
-        if(users==null||users.size()==0){
+        if (users == null || users.size() == 0) {
             user.setCreateTime(new Date());
             user.setHaveCoin(0);
             user.setConsumeCoin(0);
@@ -38,26 +40,29 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        List<WallpaperOrder> calendarOrders=wallpaperOrderService.findOrder(user);
-        if(calendarOrders==null||calendarOrders.size()==0){
-            calendarOrders=null;
+        List<WallpaperOrder> calendarOrders = wallpaperOrderService.findOrder(user);
+        if (calendarOrders == null || calendarOrders.size() == 0) {
+            calendarOrders = null;
         }
         u.setUser(users.get(0));
         u.setWallpaperOrders(calendarOrders);
         return u;
     }
 
+    @Transactional
     @Override
     public User selectByPrimaryKey(String identificationCode) {
         User user = userMapper.selectByPrimaryKey(identificationCode);
         return user;
     }
 
+    @Transactional
     @Override
     public void update(User user) {
         userMapper.updateByPrimaryKey(user);
     }
 
+    @Transactional
     @Override
     public PageResult findAllUser(Integer page, Integer limit, User user) {
         Integer start = (page - 1) * limit;
@@ -83,6 +88,7 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Transactional
     @Override
     public void deleteUser(String identificationCode) {
         userMapper.deleteByPrimaryKey(identificationCode);

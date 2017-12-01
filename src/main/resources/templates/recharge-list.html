@@ -1,122 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
-    <script th:src="@{/layui/layui.js}"></script>
-    <!--<script th:src="@{/layui/jquery.min.js}"></script>-->
-    <!--<script th:src="@{/layui/common.js}"></script>-->
+    <meta charset="utf-8">
+    <title>文章列表--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
 </head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
-        <div class="layui-logo">九吨WallPaper 后台管理</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
-        </ul>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="/page/logout">退出</a></li>
-        </ul>
-    </div>
-
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/index">用户列表</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">充值管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/recharge-list">充值列表</a></dd>
-                        <dd><a href="/recharge-add">添加充值方案</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">充值订单</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/rechargeOrder-list">订单列表</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">配置管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/config-list">配置列表</a></dd>
-                        <dd><a href="/config-add">添加配置</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">文件管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/p12-list">文件列表</a></dd>
-                        <dd><a href="/p12-add">上传文件</a></dd>
-                    </dl>
-                </li>
-            </ul>
+<body class="childrenBody">
+<div class="rechargeTable layui-form" style="padding-top: 10px;padding-left: 10px;" id="f1">
+    <div class="layui-inline">
+        包名：
+        <div class="layui-input-inline">
+            <select name="packageName" id="packageName" lay-verify="" lay-search>
+                <option value="">--请选择--</option>
+            </select>
         </div>
     </div>
-
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div class="rechargeTable layui-form" style="padding-top: 10px;padding-left: 10px;" id="f1">
-            <div class="layui-inline">
-                包名：
-                <div class="layui-input-inline">
-                    <select name="packageName" id="packageName" lay-verify="" lay-search>
-                        <option value="">--请选择--</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
-                平台：
-                <div class="layui-input-inline">
-                    <select name="platform" id="platform" lay-verify="" lay-search>
-                        <option value="">--请选择--</option>
-                        <option value="android">android</option>
-                        <option value="ios">ios</option>
-                    </select>
-                </div>
-            </div>
-            <button class="layui-btn" data-type="reload">搜索</button>
-        </div>
-
-        <div style="padding: 10px;">
-            <table id="rechargeTable" lay-filter="test"></table>
+    <div class="layui-inline">
+        平台：
+        <div class="layui-input-inline">
+            <select name="platform" id="platform" lay-verify="" lay-search>
+                <option value="">--请选择--</option>
+                <option value="android">android</option>
+                <option value="ios">ios</option>
+            </select>
         </div>
     </div>
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-
-        <div id="nowTime"></div>
-    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
 </div>
+
+<div style="padding: 10px;">
+    <table id="rechargeTable" lay-filter="test"></table>
+</div>
+<script type="text/javascript" src="/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {
@@ -124,7 +45,6 @@
     });
 </script>
 <script>
-    setInterval("document.getElementById('nowTime').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());", 1000);
     layui.use(['table', 'form', 'laydate'], function () {
         /*var laydate = layui.laydate;
         laydate.render({
@@ -179,7 +99,7 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-             if (layEvent === 'del') { //删除
+            if (layEvent === 'del') { //删除
                 layer.confirm('真的删除行么', function (index) {
                     //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                     //向服务端发送删除指令

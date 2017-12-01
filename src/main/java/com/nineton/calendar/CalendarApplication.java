@@ -15,7 +15,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.servlet.MultipartConfigElement;
 @SpringBootApplication
 @EnableTransactionManagement
-@ComponentScan("com.nineton.calendar")
+//@ComponentScan("com.nineton.calendar")
 @EnableScheduling
 public class CalendarApplication {
 	public static void main(String[] args) {

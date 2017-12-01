@@ -20,8 +20,8 @@ public class PageController {
         if("admin".equals(username)&&"nineton.com".equals(password)){
             HttpSession session = request.getSession();
             session.setAttribute("user",username);
-            session.setMaxInactiveInterval(60*10);
-            return "index";
+            session.setMaxInactiveInterval(60*30);
+            return "redirect:/index";
         }
         return "login";
     }

@@ -7,6 +7,7 @@ import com.nineton.calendar.service.*;
 import com.nineton.calendar.utils.CheckGoogPlayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class GoogleplayServiceImpl implements GoogleplayService {
     @Autowired
     private GoogleplayMapper googleplayMapper;
 
+    @Transactional
     @Override
     public String checkPay(GoogleplayExt googleplayExt) {
 
@@ -35,7 +37,7 @@ public class GoogleplayServiceImpl implements GoogleplayService {
                 return "fault";
             }
         } else {
-            GoogleplayExample example=new GoogleplayExample();
+            GoogleplayExample example = new GoogleplayExample();
             GoogleplayExample.Criteria criteria = example.createCriteria();
             criteria.andTokenEqualTo(googleplayExt.getToken());
             List<Googleplay> googles = googleplayMapper.selectByExample(example);
@@ -61,7 +63,7 @@ public class GoogleplayServiceImpl implements GoogleplayService {
         if (googleplayExt.getOrderId() != null) {
             rechargeOrder = rechargeOrderService.selectByPrimaryKey(googleplayExt.getOrderId());
         } else {
-            List<RechargeOrder> list=rechargeOrderService.selectByUR(googleplayExt);
+            List<RechargeOrder> list = rechargeOrderService.selectByUR(googleplayExt);
             if (list != null && list.size() != 0) {
                 rechargeOrder = list.get(0);
             }
