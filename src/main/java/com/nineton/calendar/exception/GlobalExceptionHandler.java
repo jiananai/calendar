@@ -1,5 +1,6 @@
 package com.nineton.calendar.exception;
 
+import com.nineton.calendar.extend.ResponseEncryptBody;
 import com.nineton.calendar.pojo.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
-    @ResponseBody
+    @ResponseEncryptBody
     public Result jsonErrorHandler(RuntimeException e, HttpServletResponse response) throws Exception {
         return Result.build(500,"服务器内部错误",e);
     }
