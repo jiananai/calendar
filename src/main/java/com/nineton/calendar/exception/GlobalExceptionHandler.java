@@ -1,6 +1,5 @@
 package com.nineton.calendar.exception;
 
-import com.nineton.calendar.extend.ResponseEncryptBody;
 import com.nineton.calendar.pojo.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -82,7 +82,7 @@ public class RechargeOrderServiceImpl implements RechargeOrderService{
         pageUtils.setLimit(limit);
 
         if ("".equals(rechargeOrder.getPlatform())) {
-            rechargeOrder.setIdentificationCode(null);
+            rechargeOrder.setPlatform(null);
         }
         if ("".equals(rechargeOrder.getPackageName())) {
             rechargeOrder.setPackageName(null);

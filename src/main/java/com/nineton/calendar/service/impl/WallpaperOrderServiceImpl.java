@@ -38,7 +38,7 @@ public class WallpaperOrderServiceImpl implements WallpaperOrderService {
         if (user.getHaveCoin() < 1) {
             return null;
         }
-        user.setConsumeMoney(user.getConsumeMoney() + 1);
+        user.setConsumeCoin(user.getConsumeCoin() + 1);
         user.setHaveCoin(user.getHaveCoin() - 1);
         userService.update(user);
 

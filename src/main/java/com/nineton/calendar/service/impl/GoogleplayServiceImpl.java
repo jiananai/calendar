@@ -41,6 +41,7 @@ public class GoogleplayServiceImpl implements GoogleplayService {
             GoogleplayExample.Criteria criteria = example.createCriteria();
             criteria.andTokenEqualTo(googleplayExt.getToken());
             List<Googleplay> googles = googleplayMapper.selectByExample(example);
+
             if (googles != null && googles.size() != 0) {
                 for (Googleplay googleplay : googles) {
                     RechargeOrder rechargeOrder = rechargeOrderService.selectByPrimaryKey(googleplay.getOrderId());

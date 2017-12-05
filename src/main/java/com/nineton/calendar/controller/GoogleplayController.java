@@ -18,6 +18,7 @@ public class GoogleplayController {
     @ResponseEncryptBody
     public Result checkPay(@RequestDecryptBody GoogleplayExt googleplayExt) {
         String s = googleplayService.checkPay(googleplayExt);
+
         if (s != null) {
             if (s.equals("success")) {
                 return Result.build(200, "The pay success !", null);
