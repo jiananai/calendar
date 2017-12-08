@@ -13,7 +13,7 @@ import java.io.IOException;
 @Controller
 public class PageController {
     @RequestMapping("/{page}")
-    public String page(@PathVariable String page, HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
+    public String page(@PathVariable String page, HttpServletRequest httpServletRequest) throws IOException {
         String str = (String) httpServletRequest.getAttribute("page");
         if(str!=null){
             //response.getWriter().write("<a href='/login'>请登录</a>");
