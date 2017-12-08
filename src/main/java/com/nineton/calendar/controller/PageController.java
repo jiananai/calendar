@@ -16,7 +16,6 @@ public class PageController {
     public String page(@PathVariable String page, HttpServletRequest httpServletRequest) throws IOException {
         String str = (String) httpServletRequest.getAttribute("page");
         if(str!=null){
-            //response.getWriter().write("<a href='/login'>请登录</a>");
             return "relogin";
         }
         return page;
