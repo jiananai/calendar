@@ -6,12 +6,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 public class PageController {
     @RequestMapping("/{page}")
-    public String page(@PathVariable String page){
+    public String page(@PathVariable String page, HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
+        String str = (String) httpServletRequest.getAttribute("page");
+        if(str!=null){
+            //response.getWriter().write("<a href='/login'>请登录</a>");
+            return "relogin";
+        }
         return page;
     }
 
@@ -20,7 +27,7 @@ public class PageController {
         if("admin".equals(username)&&"nineton.com".equals(password)){
             HttpSession session = request.getSession();
             session.setAttribute("user",username);
-            session.setMaxInactiveInterval(60*30);
+            session.setMaxInactiveInterval(30*60);
             return "redirect:/index";
         }
         return "login";

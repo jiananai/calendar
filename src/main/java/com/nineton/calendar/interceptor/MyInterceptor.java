@@ -14,7 +14,8 @@ public class MyInterceptor implements HandlerInterceptor {
 
         Object user = httpServletRequest.getSession().getAttribute("user");
         if(user==null){
-            return false;
+            httpServletRequest.setAttribute("page","relogin");
+            return true;
         }
         return true;
     }

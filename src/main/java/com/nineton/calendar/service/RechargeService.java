@@ -17,4 +17,6 @@ public interface RechargeService {
     void editRecharge(Recharge recharge);
 
     void insertRecharge(Recharge recharge);
+
+    void updateRecharge(Integer id);
 }

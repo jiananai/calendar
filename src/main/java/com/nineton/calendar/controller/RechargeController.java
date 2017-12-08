@@ -45,7 +45,7 @@ public class RechargeController {
 
     @RequestMapping("/recharge/edit")
     @ResponseBody
-    public Result editRecharge(@RequestBody Recharge recharge){
+    public Result editRecharge(Recharge recharge){
         rechargeService.editRecharge(recharge);
         return Result.ok();
     }
@@ -54,5 +54,11 @@ public class RechargeController {
     public String insertRecharge(Recharge recharge){
         rechargeService.insertRecharge(recharge);
         return "redirect:/recharge-list";
+    }
+    @RequestMapping("/recharge/update/{id}")
+    @ResponseBody
+    public Result updateRecharge(@PathVariable Integer id){
+        rechargeService.updateRecharge(id);
+        return Result.ok();
     }
 }

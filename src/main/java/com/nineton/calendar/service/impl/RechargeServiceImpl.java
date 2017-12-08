@@ -19,6 +19,7 @@ public class RechargeServiceImpl implements RechargeService {
     public List<Recharge> getRechargeList(Recharge recharge) {
         RechargeExample example = new RechargeExample();
         RechargeExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
         if (recharge != null && recharge.getPackageName() != null) {
             criteria.andPackageNameEqualTo(recharge.getPackageName());
         }
@@ -31,6 +32,7 @@ public class RechargeServiceImpl implements RechargeService {
             RechargeExample.Criteria criteria1 = example1.createCriteria();
             criteria1.andPackageNameEqualTo("com.nt.wallpaper");
             criteria1.andPlatformEqualTo("android");
+            criteria1.andStatusEqualTo(1);
             recharges = rechargeMapper.selectByExample(example1);
         }
         return recharges;
@@ -78,12 +80,24 @@ public class RechargeServiceImpl implements RechargeService {
     @Transactional
     @Override
     public void editRecharge(Recharge recharge) {
-        rechargeMapper.updateByPrimaryKey(recharge);
+        rechargeMapper.updateByPrimaryKeySelective(recharge);
     }
 
     @Transactional
     @Override
     public void insertRecharge(Recharge recharge) {
+        recharge.setStatus(1);
         rechargeMapper.insert(recharge);
+    }
+
+    @Override
+    public void updateRecharge(Integer id) {
+        Recharge recharge = rechargeMapper.selectByPrimaryKey(id);
+        if(recharge.getStatus()==0){
+            recharge.setStatus(1);
+        }else{
+            recharge.setStatus(0);
+        }
+        rechargeMapper.updateByPrimaryKey(recharge);
     }
 }

@@ -17,6 +17,8 @@ public class Recharge {
 
     private String platform;
 
+    private Integer status;
+
     public Integer getId() {
         return id;
     }
@@ -81,17 +83,11 @@ public class Recharge {
         this.platform = platform == null ? null : platform.trim();
     }
 
-    @Override
-    public String toString() {
-        return "Recharge{" +
-                "id=" + id +
-                ", productId='" + productId + '\'' +
-                ", save='" + save + '\'' +
-                ", coin=" + coin +
-                ", price=" + price +
-                ", language='" + language + '\'' +
-                ", packageName='" + packageName + '\'' +
-                ", platform='" + platform + '\'' +
-                '}';
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

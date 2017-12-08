@@ -23,7 +23,7 @@ public class UserController {
     @RequestMapping("/userMessage")
     @ResponseEncryptBody
     public Result findUserMessage(@RequestDecryptBody User user){
-        UserExt u=userService.insertOrFindUser(user);
+        UserExt u= userService.insertOrFindUser(user);
         return Result.build(200,"ok",u);
     }
 

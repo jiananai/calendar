@@ -10,6 +10,7 @@
     <result column="language" property="language" jdbcType="VARCHAR" />
     <result column="package_name" property="packageName" jdbcType="VARCHAR" />
     <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Where_clause">
     <where>
@@ -37,6 +38,9 @@
       </if>
       <if test="recharge.platform != null" >
         and platform = #{recharge.platform,jdbcType=VARCHAR}
+      </if>
+      <if test="recharge.status != null" >
+        and status = #{recharge.status,jdbcType=INTEGER}
       </if>
       <if test="date != null" >
         and createtime > #{date,jdbcType=TIMESTAMP}
@@ -102,7 +106,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, product_id, save, coin, price, language, package_name, platform
+    id, product_id, save, coin, price, language, package_name, platform, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.RechargeExample" >
     select
@@ -137,10 +141,12 @@
   <insert id="insert" parameterType="com.nineton.calendar.pojo.Recharge" >
     insert into recharge (id, product_id, save, 
       coin, price, language, 
-      package_name, platform)
+      package_name, platform, status
+      )
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{save,jdbcType=VARCHAR}, 
       #{coin,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{language,jdbcType=VARCHAR}, 
-      #{packageName,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR})
+      #{packageName,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.nineton.calendar.pojo.Recharge" >
     insert into recharge
@@ -169,6 +175,9 @@
       <if test="platform != null" >
         platform,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -194,6 +203,9 @@
       </if>
       <if test="platform != null" >
         #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -230,6 +242,9 @@
       <if test="record.platform != null" >
         platform = #{record.platform,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -244,7 +259,8 @@
       price = #{record.price,jdbcType=DOUBLE},
       language = #{record.language,jdbcType=VARCHAR},
       package_name = #{record.packageName,jdbcType=VARCHAR},
-      platform = #{record.platform,jdbcType=VARCHAR}
+      platform = #{record.platform,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -273,6 +289,9 @@
       <if test="platform != null" >
         platform = #{platform,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -284,7 +303,8 @@
       price = #{price,jdbcType=DOUBLE},
       language = #{language,jdbcType=VARCHAR},
       package_name = #{packageName,jdbcType=VARCHAR},
-      platform = #{platform,jdbcType=VARCHAR}
+      platform = #{platform,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

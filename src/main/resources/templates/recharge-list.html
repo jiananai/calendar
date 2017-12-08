@@ -52,6 +52,7 @@
             , type: 'datetime'
         });*/
         var table = layui.table;
+        var form = layui.form;
         //第一个实例
         table.render({
             elem: '#rechargeTable'
@@ -67,6 +68,7 @@
                 , {field: 'language', title: '语言' ,edit: 'text'}
                 , {field: 'packageName', title: '包名' ,edit: 'text'}
                 , {field: 'platform', title: '平台' ,edit: 'text'}
+                , {field: 'status', title:'状态', width:85, templet: '#switchTpl', unresize: true}
                 , {fixed: 'right', title: '操作', width: 90, align: 'center', toolbar: '#barDemo'}
             ]]
         });
@@ -90,7 +92,6 @@
             for (var i = 0; i < data.length; i++) {
                 $("#packageName").append("<option>" + data[i].packageName + "</option>");
             }
-            var form = layui.form;
             form.render();
         });
 
@@ -113,23 +114,27 @@
             }
         });
         table.on('edit(test)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            //var val = obj.value; //得到修改后的值
-            //var ff = obj.field; //当前编辑的字段名
+            var val = obj.value; //得到修改后的值
+            var ff = obj.field; //当前编辑的字段名
+            var data =obj.data;
             //var userid = obj.data.userid;
-            var param = JSON.stringify(obj.data);
-            $.ajax({
-                url: "/recharge/edit",
-                type: "post",
-                data: param,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    if (data.status == 200) {
-                        table.reload('idTest', {});
-                    }
-                }
-            })
+            //var param = JSON.stringify(obj.data);
+            $.get("/recharge/edit?id=" + data.id+"&"+ff+"="+val, function (data) {
+                /*if (data.status == 200) {
+                    layer.confirm("删除成功");
+                    table.reload('idTest', {});
+                }*/
+            });
 
+        });
+        form.on('switch(statusDemo)', function(obj){
+            //layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+            $.post("/recharge/update/" + this.id, function (data) {
+                /*if (data.status == 200) {
+                    layer.confirm("成功");
+                    table.reload('idTest', {});
+                }*/
+            });
         });
     });
 
@@ -138,6 +143,9 @@
     <!-- <a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>-->
     <!--<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>-->
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="status" value="{{d.status}}" id="{{d.id}}" lay-skin="switch" lay-text="启用|关闭" lay-filter="statusDemo" {{ d.status == 1 ? 'checked' : '' }}>
 </script>
 </body>
 </html>
