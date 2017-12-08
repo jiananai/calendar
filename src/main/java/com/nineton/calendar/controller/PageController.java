@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+
 @Controller
 public class PageController {
     @RequestMapping("/{page}")
     public String page(@PathVariable String page, HttpServletRequest httpServletRequest) throws IOException {
         String str = (String) httpServletRequest.getAttribute("page");
         if(str!=null){
+
             return "relogin";
         }
         return page;
