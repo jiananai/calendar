@@ -1,0 +1,25 @@
+﻿sh /usr/myfile/tomcat/tomcat7/bin/startup.sh
+sh /usr/myfile/tomcat/tomcat7/bin/shutdown.sh
+
+springboot:
+ps aux | grep jar包名字 | xargs kill -9
+开启：nohup java -jar test.jar &
+关闭：curl -X POST http://localhost:8080/shutdown
+
+密码：nineton@&^&nineton
+
+node index.js
+API账号：I5258624  密码：sXPq3j8vH
+模板：【253云通讯】您好，您的验证码是xxxx
+接口文档：https://www.showdoc.cc/1621091?page_id=14901461
+
+解决tomcat启动缓慢或者关闭不了：
+永久：oracle 说修改 $JAVA_HOME/jre/lib/security/java.security 文件，替换securerandom.source=file:/dev/random 为 securerandom.source=file:/dev/urandom。对所有使用JVM的应用生效。（这个永久的方法，这里面有个问题，就是设置时候实际应该设置为securerandom.source=file:/dev/./urandom，否则不生效）
+
+DOMAIN临时：修改startWeblogic.sh文件，JAVA_OPTIONS="${SAVE_JAVA_OPTIONS} -Djava.security.egd=file:/dev/./urandom"
+
+
+
+
+
+

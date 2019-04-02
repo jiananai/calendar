@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>首页--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/font_eolqem241z66flxr.css" media="all"/>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+</head>
+<body class="childrenBody">
+<div class="panel_box row">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <form class="layui-form" action="/recharge/add" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">PRODUCTID</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="productId" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">折扣</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="save" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">金币</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="coin" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">价格</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="price" required lay-verify="required" placeholder="请输入"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">包名</label>
+                <div class="layui-input-inline">
+                    <select name="packageName" id="packageName" lay-verify="required">
+                        <option value="">---请选择---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">平台</label>
+                <div class="layui-input-inline">
+                    <select name="platform" lay-verify="required">
+                        <option value="">---请选择---</option>
+                        <option value="android">android</option>
+                        <option value="ios">ios</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">语言</label>
+                <div class="layui-input-inline">
+                    <select name="language" lay-verify="required">
+                        <option value="">---请选择---</option>
+                        <option value="ch">汉语</option>
+                        <option value="en">英语</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use(['element', 'form'], function () {
+        var $ = layui.$
+        $.post("./p12/list", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#packageName").append("<option>" + data[i].packageName + "</option>");
+            }
+            var form = layui.form;
+            form.render();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nineton.calendar.mapper.ConfigMapper">
+    <resultMap id="BaseResultMap" type="com.nineton.calendar.pojo.Config">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="config_key" property="configKey" jdbcType="VARCHAR"/>
+        <result column="descpt" property="descpt" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.nineton.calendar.pojo.Config" extends="BaseResultMap">
+        <result column="config_value" property="configValue" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, config_key, descpt
+  </sql>
+    <sql id="Blob_Column_List">
+    config_value
+  </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="com.nineton.calendar.pojo.ConfigExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.ConfigExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.nineton.calendar.pojo.ConfigExample">
+        delete from config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.nineton.calendar.pojo.Config">
+    insert into config (id, config_key, descpt, 
+      config_value)
+    values (#{id,jdbcType=INTEGER}, #{configKey,jdbcType=VARCHAR}, #{descpt,jdbcType=VARCHAR}, 
+      #{configValue,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.nineton.calendar.pojo.Config">
+        insert into config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="configKey != null">
+                config_key,
+            </if>
+            <if test="descpt != null">
+                descpt,
+            </if>
+            <if test="configValue != null">
+                config_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="configKey != null">
+                #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="descpt != null">
+                #{descpt,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                #{configValue,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.nineton.calendar.pojo.ConfigExample" resultType="java.lang.Integer">
+        select count(*) from config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update config
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.configKey != null">
+                config_key = #{record.configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="record.descpt != null">
+                descpt = #{record.descpt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.configValue != null">
+                config_value = #{record.configValue,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update config
+        set id = #{record.id,jdbcType=INTEGER},
+        config_key = #{record.configKey,jdbcType=VARCHAR},
+        descpt = #{record.descpt,jdbcType=VARCHAR},
+        config_value = #{record.configValue,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update config
+        set id = #{record.id,jdbcType=INTEGER},
+        config_key = #{record.configKey,jdbcType=VARCHAR},
+        descpt = #{record.descpt,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.nineton.calendar.pojo.Config">
+        update config
+        <set>
+            <if test="configKey != null">
+                config_key = #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="descpt != null">
+                descpt = #{descpt,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                config_value = #{configValue,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nineton.calendar.pojo.Config">
+    update config
+    set config_key = #{configKey,jdbcType=VARCHAR},
+      descpt = #{descpt,jdbcType=VARCHAR},
+      config_value = #{configValue,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.nineton.calendar.pojo.Config">
+    update config
+    set config_key = #{configKey,jdbcType=VARCHAR},
+      descpt = #{descpt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="findAllConfig" resultMap="ResultMapWithBLOBs" parameterType="com.nineton.calendar.pojo.PageUtils">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config
+        limit #{start},#{limit}
+    </select>
+    <select id="count" resultType="java.lang.Integer" parameterType="com.nineton.calendar.pojo.PageUtils">
+    SELECT COUNT(*) from config
+  </select>
+</mapper>

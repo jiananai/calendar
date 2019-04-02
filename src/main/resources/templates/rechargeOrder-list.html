@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>首页--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/css/font_eolqem241z66flxr.css" media="all"/>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+</head>
+<body class="childrenBody">
+<div class="panel_box row">
+    <!-- 内容主体区域 -->
+    <div class="rechargeOrderTable layui-form" style="padding-top: 10px;padding-left: 10px;" id="f1">
+        <div class="layui-inline">
+            包名：
+            <div class="layui-input-inline">
+                <select name="packageName" id="packageName" lay-verify="" lay-search>
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            平台：
+            <div class="layui-input-inline">
+                <select name="platform" id="platform" lay-verify="" lay-search>
+                    <option value="">--请选择--</option>
+                    <option value="android">android</option>
+                    <option value="ios">ios</option>
+                </select>
+            </div>
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+    </div>
+
+    <div style="padding: 10px;">
+        <table id="rechargeOrderTable" lay-filter="test"></table>
+    </div>
+</div>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+
+    });
+</script>
+<script>
+    layui.use(['table', 'form', 'laydate'], function () {
+        /*var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startTime' //指定元素
+            , type: 'datetime'
+        });*/
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#rechargeOrderTable'
+            , id: 'idTest'
+            , url: '/rechargeOrder/rechargeOrderPage' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {type: 'numbers'}
+                , {field: 'orderid', title: '订单ID'}
+                , {field: 'identificationCode', title: '用户识别码'}
+                , {field: 'coin', title: '金币', sort: true}
+                , {field: 'price', title: '价格'}
+                , {field: 'createTime', title: '创建时间', sort: true, templet: '#Tpl2'}
+                , {field: 'packageName', title: '包名'}
+                , {field: 'platform', title: '平台'}
+                , {field: 'status', title: '状态', templet: "#Tpl1"}
+            ]]
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('idTest', {
+                    where: {
+                        packageName: $("#packageName").val(),
+                        platform: $("#platform").val()
+                    }
+                });
+            }
+        };
+        $('.rechargeOrderTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        $.post("/p12/list", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#packageName").append("<option>" + data[i].packageName + "</option>");
+            }
+            var form = layui.form;
+            form.render();
+        });
+
+        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    //向服务端发送删除指令
+                    $.post("/recharge/delete/" + data.id, function (data) {
+                        if (data.status == 200) {
+                            layer.confirm("删除成功");
+                            table.reload('idTest', {});
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+</script>
+<script type="text/html" id="barDemo">
+    <!--<a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>-->
+</script>
+<script type="text/html" id="Tpl1">
+    {{#  if(d.status === 1){ }}
+    <span style="color:red;">成功</span>
+    {{#  } else if(d.status === 0){ }}
+    <span style="color:gray;">取消</span>
+    {{#  }else if(d.status === 2){ }}
+    <span style="color:gray;">挂起</span>
+    {{#  } }}
+</script>
+<script type="text/html" id="Tpl2">
+    {{#
+    function add0(m){return m<10?'0'+m:m }
+    }}
+    {{#
+    function format(shijianchuo)
+    {
+    var time = new Date(shijianchuo);
+    var y = time.getFullYear();
+    var m = time.getMonth()+1;
+    var d = time.getDate();
+    var h = time.getHours();
+    var mm = time.getMinutes();
+    var s = time.getSeconds();
+    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    }
+    }}
+
+    {{format(d.createTime)}}
+</script>
+</body>
+</html>

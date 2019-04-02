@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>文章列表--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+    <script type="text/javascript" src="/layui/layui.js"></script>
+</head>
+<body class="childrenBody">
+<div class="panel_box row">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <div style="padding: 10px;">
+            <table id="configTable" lay-filter="test"></table>
+        </div>
+    </div>
+</div>
+
+<div class="layui-footer">
+    <!-- 底部固定区域 -->
+
+    <div id="nowTime"></div>
+</div>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+
+    });
+</script>
+<script>
+    layui.use(['table', 'form', 'laydate'], function () {
+        /*var laydate = layui.laydate;
+        laydate.render({
+            elem: '#startTime' //指定元素
+            , type: 'datetime'
+        });*/
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#configTable'
+            , id: 'idTest'
+            , url: '/config/configPage' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {type: 'numbers'}
+                , {field: 'configKey', title: 'KEY', edit: 'text', width: 80}
+                , {field: 'configValue', title: 'VALUE', edit: 'text'}
+                , {field: 'descpt', title: '描述', edit: 'text', width: 80}
+                , {fixed: 'right', title: '操作', width: 90, align: 'center', toolbar: '#barDemo'}
+            ]]
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('idTest', {
+                    where: {
+                        packageName: $("#packageName").val(),
+                        platform: $("#platform").val(),
+                    }
+                });
+            }
+        };
+        /*$.post("/p12/list", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#packageName").append("<option>" + data[i].packageName + "</option>");
+            }
+            var form = layui.form;
+            form.render();
+        });*/
+
+        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    //向服务端发送删除指令
+                    $.post("/config/delete/" + data.id, function (data) {
+                        if (data.status == 200) {
+                            layer.confirm("删除成功");
+                            table.reload('idTest', {});
+                        }
+                    });
+                });
+            }
+        });
+        table.on('edit(test)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //var val = obj.value; //得到修改后的值
+            //var ff = obj.field; //当前编辑的字段名
+            //var userid = obj.data.userid;
+            var param = JSON.stringify(obj.data);
+            $.ajax({
+                url: "/config/edit",
+                type: "post",
+                data: param,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 200) {
+                        table.reload('idTest', {});
+                    }
+                }
+            })
+
+        });
+    });
+
+</script>
+<script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>-->
+    <!--<a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>-->
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+</body>
+</html>

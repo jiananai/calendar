@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nineton.calendar.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.nineton.calendar.pojo.User" >
+    <id column="identification_code" property="identificationCode" jdbcType="VARCHAR" />
+    <result column="have_coin" property="haveCoin" jdbcType="INTEGER" />
+    <result column="consume_coin" property="consumeCoin" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="consume_money" property="consumeMoney" jdbcType="DOUBLE" />
+    <result column="package_name" property="packageName" jdbcType="VARCHAR" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Where_clause">
+    <where>
+      <if test="user.identificationCode != null" >
+        and identification_code = #{user.identificationCode,jdbcType=VARCHAR}
+      </if>
+
+      <if test="user.consumeCoin != null" >
+        and consume_coin = #{user.consumeCoin,jdbcType=INTEGER}
+      </if>
+      <if test="user.haveCoin != null" >
+        and have_coin = #{user.haveCoin,jdbcType=INTEGER}
+      </if>
+      <if test="user.consumeMoney != null" >
+        and consume_money = #{user.consumeMoney,jdbcType=DOUBLE}
+      </if>
+      <if test="user.packageName != null" >
+        and package_name = #{user.packageName,jdbcType=VARCHAR}
+      </if>
+      <if test="user.platform != null" >
+        and platform = #{user.platform,jdbcType=VARCHAR}
+      </if>
+      <if test="date != null" >
+        and createtime > #{date,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    identification_code, have_coin, consume_coin, create_time, consume_money, package_name, 
+    platform
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where identification_code = #{identificationCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where identification_code = #{identificationCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nineton.calendar.pojo.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nineton.calendar.pojo.User" >
+    insert into user (identification_code, have_coin, consume_coin, 
+      create_time, consume_money, package_name, 
+      platform)
+    values (#{identificationCode,jdbcType=VARCHAR}, #{haveCoin,jdbcType=INTEGER}, #{consumeCoin,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{consumeMoney,jdbcType=DOUBLE}, #{packageName,jdbcType=VARCHAR}, 
+      #{platform,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nineton.calendar.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="identificationCode != null" >
+        identification_code,
+      </if>
+      <if test="haveCoin != null" >
+        have_coin,
+      </if>
+      <if test="consumeCoin != null" >
+        consume_coin,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="consumeMoney != null" >
+        consume_money,
+      </if>
+      <if test="packageName != null" >
+        package_name,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="identificationCode != null" >
+        #{identificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="haveCoin != null" >
+        #{haveCoin,jdbcType=INTEGER},
+      </if>
+      <if test="consumeCoin != null" >
+        #{consumeCoin,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consumeMoney != null" >
+        #{consumeMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nineton.calendar.pojo.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.identificationCode != null" >
+        identification_code = #{record.identificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.haveCoin != null" >
+        have_coin = #{record.haveCoin,jdbcType=INTEGER},
+      </if>
+      <if test="record.consumeCoin != null" >
+        consume_coin = #{record.consumeCoin,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.consumeMoney != null" >
+        consume_money = #{record.consumeMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="record.packageName != null" >
+        package_name = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platform != null" >
+        platform = #{record.platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set identification_code = #{record.identificationCode,jdbcType=VARCHAR},
+      have_coin = #{record.haveCoin,jdbcType=INTEGER},
+      consume_coin = #{record.consumeCoin,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      consume_money = #{record.consumeMoney,jdbcType=DOUBLE},
+      package_name = #{record.packageName,jdbcType=VARCHAR},
+      platform = #{record.platform,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nineton.calendar.pojo.User" >
+    update user
+    <set >
+      <if test="haveCoin != null" >
+        have_coin = #{haveCoin,jdbcType=INTEGER},
+      </if>
+      <if test="consumeCoin != null" >
+        consume_coin = #{consumeCoin,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consumeMoney != null" >
+        consume_money = #{consumeMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="packageName != null" >
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where identification_code = #{identificationCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nineton.calendar.pojo.User" >
+    update user
+    set have_coin = #{haveCoin,jdbcType=INTEGER},
+      consume_coin = #{consumeCoin,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      consume_money = #{consumeMoney,jdbcType=DOUBLE},
+      package_name = #{packageName,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR}
+    where identification_code = #{identificationCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findAllUser" resultMap="BaseResultMap" parameterType="com.nineton.calendar.pojo.PageUtils">
+    SELECT * from user
+    <include refid="Where_clause" />
+    ORDER by create_time DESC limit #{start},#{limit}
+  </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="com.nineton.calendar.pojo.PageUtils">
+    SELECT COUNT(*) from user <include refid="Where_clause" />
+  </select>
+</mapper>
